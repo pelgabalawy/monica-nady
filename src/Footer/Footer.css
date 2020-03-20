@@ -1,0 +1,23 @@
+.footer{
+    position: relative;
+    width: 100%;
+    color: green;
+    text-align: center;
+}
+
+.footer-list{
+    list-style-type: none;
+}
+
+#instagram-img, #facebook-img{
+    width: 50px;
+}
+
+#facebook, #instagram{
+    padding: 5px;
+    display: inline-block;
+}
+#facebook:hover, #instagram:hover{
+    cursor: pointer;
+    transform: scale(1.2);
+}
