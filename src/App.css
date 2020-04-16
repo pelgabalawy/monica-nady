@@ -1,7 +1,8 @@
 body{
-    margin-right: 300px;
+    /* margin-right: 300px;
     margin-left: 300px;
-    margin-top: 40px;
+    margin-top: 40px; */
+    margin: 2%;
     display: flex;
     border-radius: 40px;
     flex-direction: column;

@@ -1,42 +1,12 @@
-
 .navbar{
-
+    border-radius: 10px;
+    margin: 2%;
 }
 
-#name{
-    font-size: x-large;
-    font-weight: bold;
-    margin-right: 10px;;
-}
-
-.navbar-list{
-    list-style-type: none;
-}
-
-#logo-img{
-    max-width: 100px;
-    cursor: pointer;
-}
-
-#name{
-    font-family: Liu Jian Mao Cao;
-    font-size: 40px;
-}
-
-#logo, #name, #section1, #section2, #section3{
-    padding: 10px;
-    display: inline-table;
-}
-
-#section1, #section2, #section3{
-    font-family: Georgia, 'Times New Roman', Times, serif;
+.nav-link{
     font-weight: bold;
 }
 
-#section1:hover, #section2:hover, #section3:hover{
-    border-radius: 20px;
-    background-color: lightpink;
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
+#company_name {
+    font-family: "Liu Jian Mao Cao";
 }
