@@ -5,6 +5,13 @@
 
 .nav-link{
     font-weight: bold;
+    font-family: 'Times New Roman', Times, serif;
+}
+.nav-link:hover{
+    background-color: pink;
+    color: black !important;
+    border-radius: 20px;
+    padding: 10px 8px 10px 8px;
 }
 
 #company_name {

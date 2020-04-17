@@ -10,8 +10,8 @@ class Footer extends React.Component {
   render() {
     return (
     <div className="footer">
+    <br/><hr/>
       <ul className="footer-list">
-        <hr/>
         <li id='facebook'>
           <a href={this.links.facebook} target="_blank" rel="noopener noreferrer">
             <img id='facebook-img' src={process.env.PUBLIC_URL + '/images/facebook.png'} alt="facebook link" />
