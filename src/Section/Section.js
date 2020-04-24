@@ -11,7 +11,7 @@ class Section extends React.Component {
       <div id="section" className="card">
         <div className="card-header" id={nameAtt}><h3>{nameAtt}</h3></div>
           <div className="card-body">
-            <Preview />
+            <Preview name={nameAtt}/>
           </div>
       </div>
       <br/>
