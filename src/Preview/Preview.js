@@ -13,7 +13,7 @@ class Preview extends React.Component {
         let comps = []
         for (var index = 1; index<dd.length; index++){
             comps.push(
-                <div className="card">
+                <div className="card" key={name+index}>
                     <img className="card-img-top" id={name+index} src="" alt="Card cap"/>
                     <div className="card-body">
                         <h5 className="card-title">{dd[index].title}</h5>

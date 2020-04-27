@@ -4,7 +4,7 @@ import Footer from './Footer/Footer.js';
 import Navbar from './Navbar/Navbar.js';
 import Section from './Section/Section.js';
 import config from './config.js';
-import Firebase from 'firebase/';
+import Firebase from 'firebase/app';
 
 class App extends React.Component {
   
