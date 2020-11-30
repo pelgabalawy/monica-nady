@@ -5,34 +5,43 @@ import Navbar from './Navbar/Navbar.js';
 import Section from './Section/Section.js';
 import config from './config.js';
 import Firebase from 'firebase/app';
-import AddOrEditProduct from './AddOrEditProduct/AddOrEditProduct.js'
 import {
-  BrowserRouter as Router, Switch, Route
-} from "react-router-dom"
+  Switch,
+  Route
+} from "react-router-dom";
+import AddOrEditProduct from './AddOrEditProduct/AddOrEditProduct.js'
 
 class App extends React.Component {
+  constructor(props){
+    super(props);
+    Firebase.initializeApp(config);
+  }
   
   render() {
-    Firebase.initializeApp(config);
+    
     return (
       <div className="App">
-        <Router>
+          {/* This is the default components that should show up at all times! */}
           <Navbar/>
-
-          {/* go to add a product or just the regular home page */}
           <Switch>
-            <Route path="/">
+          <Route exact path="/">
+            <Section name="Apartments"/>
+          </Route>
+            <Route exact path="/apartments">
               <Section name="Apartments"/>
+            </Route>
+            <Route exact path="/houses">
               <Section name="Houses"/>
+            </Route>
+            <Route exact path="/layouts">
               <Section name="Layouts"/>
-            </Route>  
-            <Route path="/plm">
-              <AddOrEditProduct />
+            </Route>
+            <Route exact path="/monica">
+              <AddOrEditProduct/>
             </Route>
           </Switch>
-
+          {/* <AddOrEditProduct /> */}
           <Footer/>  
-        </Router>
       </div>);    
   }
 }

@@ -1,15 +1,16 @@
 import './Preview.css'
 import React from 'react';
 
-
 // import DataWorker from '../Services/DataWorker.js'
 
 class Preview extends React.Component {
-        
+    // constructor(props){
+    //     super(props)
+    // }
 
     render() {
-        const dd = this.props.data;
-        const name = this.props.name;
+        let dd = this.props.data;
+        let name = this.props.name;
         let comps = []
         for (var index = 1; index<dd.length; index++){
             comps.push(
@@ -24,9 +25,7 @@ class Preview extends React.Component {
                     </div>
                 </div>
             )
-        }
-        
-                    
+        }   
         return (
             <div className="card-deck">
                 {comps}
