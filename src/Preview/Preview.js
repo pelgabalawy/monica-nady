@@ -4,32 +4,33 @@ import React from 'react';
 // import DataWorker from '../Services/DataWorker.js'
 
 class Preview extends React.Component {
-    // constructor(props){
-    //     super(props)
-    // }
 
     render() {
-        let dd = this.props.data;
         let name = this.props.name;
+        let dd = this.props.data;
         let comps = []
-        for (var index = 1; index<dd.length; index++){
-            comps.push(
-                <div className="card previewCard" key={name+index}>
-                    <img className="card-img-top" id={name+index} src="" alt="Card cap"/>
-                    <div className="card-body previewBody">
-                        <div className="previewTitle">
-                            <h4 className="card-title">{dd[index].title}</h4>
+        if(!this.props.data || !this.props.ids[name] || !this.props.links){
+            return <span></span>
+        }else{
+            for (var index = 0; index<this.props.ids[name].length; index++){
+                comps.push(
+                    <div className="card previewCard" key={name+this.props.ids[name][index].toLowerCase()}>
+                        <img className="card-img-top" id={name+this.props.ids[name][index].toLowerCase()} src={this.props.links[name][index]} alt="Card cap"/>
+                        <div className="card-body previewBody">
+                            <div className="previewTitle">
+                                <h4 className="card-title">{dd[name][this.props.ids[name][index]].title}</h4>
+                            </div>
+                            <p className="card-text">{dd[name][this.props.ids[name][index]].description}</p>
+                            <p className="card-text"><small className="text-muted">{}</small></p>
                         </div>
-                        <p className="card-text">{dd[index].description}</p>
-                        <p className="card-text"><small className="text-muted">{}</small></p>
                     </div>
-                </div>
-            )
-        }   
-        return (
-            <div className="card-deck">
-                {comps}
-            </div>);
+                )
+            } 
+            return (
+                <div className="card-deck">
+                    {comps}
+                </div>);
+        }
     }
 }
 
