@@ -3,7 +3,6 @@ import './App.css';
 import Footer from './Footer/Footer.js';
 import Navbar from './Navbar/Navbar.js';
 import Section from './Section/Section.js';
-import Preview from './Preview/Preview.js'
 import config from './config.js';
 import Firebase from 'firebase/app';
 import "firebase/database";
@@ -14,90 +13,96 @@ import {
 } from "react-router-dom";
 import AddOrEditProduct from './AddOrEditProduct/AddOrEditProduct.js';
 
-const initialState = {
-  data: {},
-  ind: {},
-  lls: {}
-};
-
 class App extends React.Component {
 
   constructor(props){
     super(props)
-    this.state = initialState
+    this.status = {data: null} 
     if(Firebase.apps.length === 0){
       Firebase.initializeApp(config);
     }
-    this.getData("apartments")
-  }
-  
-  
-  componentDidMount() {
-    this.setState(initialState)
-    this.getData("layouts")
-    this.getData("apartments")
-    this.getData("houses")
   }
 
-  getData(section) {
-    let storage = Firebase.storage().ref().child(section);  
-    let ref = Firebase.database().ref('/').child("products");
-    let data_l = this.state.data
-    let lks = this.state.lls
-    lks[section] = []
-    let dp = this.state.ind
-    ref.once('value').then(snapshot => {
-        data_l = snapshot.val();
-        dp[section] = Object.keys(data_l[section])
-        for (let index=0; index<dp[section].length; index++){
-            storage.child(data_l[section][dp[section][index]].name).getDownloadURL().then(function(url){
-              lks[section].push(url)
-              //document.getElementById(section+dp[index].toString()).src=url;
-            }).catch(function(error) {
-              console.log(error)
-            });
-        }
-        this.setState({data: data_l, ind: dp, lls: lks})
-    });
+    /**
+   * data:{
+   *  "apartments": {
+   *    1: {
+   *      "description": "",
+   *      "name": "",
+   *      "title": "",
+   *      "imgs": ""
+   *    }
+   *  }
+   * 
+   * }
+   */
+
+  componentDidMount() {
+      this.getData(["apartments", "houses", "layouts"]).then((value) => {
+        console.log(value)
+        this.setState({data: value})
+      });
+  }
+
+  async getData(sections) {
+    let data = {};
+    for(let i=0; i<sections.length; i++){
+      data[sections[i]] = {}
+      let ref = await Firebase.database().ref('/').child("products/" + sections[i]);
+      ref.once('value').then(snapshot => {
+          data[sections[i]] = snapshot.val();
+          let ids = Object.keys(data[sections[i]])  
+          for (let j=0; j<ids.length; j++){
+            this.getImages(sections[i], ids[j], data[sections[i]][ids[j]]["name"]).then((tmp) =>{
+              data[sections[i]][ids[j]]["img"] = tmp
+            })
+          }  
+      })
+    }
+    // console.log(data)
+    return data
+  }
+
+  // inputs: the section name, Ex: apartments | image_names list of names we got from the db
+  // output: a list of downloadable links for all the images in the section folder in the firebase storage
+  async getImages(section, folder_id, img){
+    let storage = Firebase.storage().ref().child(section);
+    let url_f = await storage.child(folder_id + "/" + img).getDownloadURL()
+    return url_f  
   }
 
   render() {
-    // console.log(this.state.data)
-    if(!this.state.data || !this.state.ind || !this.state.lls){
+    let data = this.state.data
+    console.log(data)
+    if(!data){
       return <div>loading...</div>
     }else{
       return (
         <div className="App">
             {/* This is the default components that should show up at all times! */}
             <Navbar/>
-
-            <Switch>
+            <Switch> 
               <Route exact path="/">
-              <Section name="Apartments" 
-                preview={<Preview name="apartments" data={this.state.data} ids={this.state.ind} links={this.state.lls}/>}/>
+                <Section name="apartments" data={data}/>
               </Route>
               <Route exact path="/apartments">
-                <Section name="Apartments" 
-                  preview={<Preview name="apartments" data={this.state.data} ids={this.state.ind} links={this.state.lls}/>}/>
+                <Section name="apartments" data={data}/>
               </Route>
               <Route exact path="/houses">
-                <Section name="Houses" 
-                  preview={<Preview name="houses" data={this.state.data} ids={this.state.ind} links={this.state.lls}/>}/>
+                <Section name="houses" data={data}/>
               </Route>
               <Route exact path="/layouts">
-                <Section name="Layouts" 
-                  preview={<Preview name="layouts" data={this.state.data} ids={this.state.ind} links={this.state.lls}/>}/>
+                <Section name="layouts" data={data}/>
               </Route>
               <Route exact path="/monica">
                 <AddOrEditProduct/>
               </Route>
             </Switch>
             
-            <Footer/>  
+            <Footer/> 
         </div>);
-    }  
-    
-  }
-  
+      }
+  }    
+   
 }
 export default App;
